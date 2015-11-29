@@ -1,2 +1,2 @@
 # mhx-gathering-cat
-Gathering the information of MHX Using python. 
+Gathering the information of MHX using Python. 
