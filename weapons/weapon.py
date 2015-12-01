@@ -12,8 +12,8 @@ class Weapon(object):
                  attack = 0,                    # 攻击力
                  defense = 0,                   # 防御力
                  affinity = 0,                  # 会心率
-                 element1 = (None, 0),          # 属性 1, 属性与数值
-                 element2 = (None, 0),          # 属性 2, 属性与数值
+                 element = (None, 0),           # 属性効果 1, 属性与数值
+                 accumulation = (None, 0),      # 蓄積効果
                  rarity = 1,                    # 稀有度
                  sharpness1 = [],               # 斩味
                  sharpness2 = [],               # 斩味 +1
@@ -24,8 +24,8 @@ class Weapon(object):
         self.attack = attack
         self.defense = defense
         self.affinity = affinity
-        self.element1 = element1
-        self.element2 = element2
+        self.element = element
+        self.accumulation = accumulation
         self.rarity = rarity
         self.sharpness1 = sharpness1
         self.sharpness2 = sharpness2
