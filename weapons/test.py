@@ -13,3 +13,4 @@ for i in xrange(len(found)):
 ### test 2 ###
 weaponfactory = WeaponFactory('http://wiki.mhxg.org/ida/220144.html').get_weapon()
 print weaponfactory.name
+
