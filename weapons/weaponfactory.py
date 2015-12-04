@@ -8,6 +8,7 @@ import urllib2
 import re
 from weapon import BaseWeapon
 from pyquery import PyQuery
+from compiler.ast import Node
 
 class WeaponFactory(object):
     '''
@@ -32,7 +33,7 @@ class WeaponFactory(object):
         #return weapon
         
     def handle_effect(self, node):
-        effect = (None, 0, False)
+        effect = [None, 0, False]
         text = node.text()
         if -1 == text.find(u'覚醒：'):
             effect[2] = True
@@ -41,13 +42,18 @@ class WeaponFactory(object):
         m = pattern.match(text)
         effect[0] = m.group(1)
         effect[1] = int(m.group(2))
-        return effect
+        return tuple(effect)
         
     def handle_sharpness(self, node):
-        pass
+        sharpness = []
+        span = node("span")
+        for i in xrange(len(span)-1):
+            sharpness.append(len(span.eq(i).text()))
+        return sharpness
+            
     def handle_slot(self, node):
-        pass
-    
+        return (u'○' == node.eq(i).text() for i in xrange(len(node.text())))
+            
     dict_handler = {u'名前': lambda node: node.text(), 
                     u'攻撃力': lambda node: 0 if node.text() == '-' else int(node.text()),
                     u'防御力': lambda node: 0 if node.text() == '-' else int(node.text()),
