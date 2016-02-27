@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Dec 1, 2015
 
@@ -8,7 +9,6 @@ import urllib2
 import re
 from weapon import BaseWeapon
 from pyquery import PyQuery
-from compiler.ast import Node
 
 class WeaponFactory(object):
     '''
@@ -64,6 +64,7 @@ class WeaponFactory(object):
                     u'斬れ味長さ': lambda node: 0 if node.text() == '-' else int(node.text()),
                     u'斬れ味': handle_sharpness,
                     u'斬れ味+1': handle_sharpness,
+                    
                     u'スロット': handle_slot,
                     
                     }
