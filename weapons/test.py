@@ -17,6 +17,7 @@ sys.setdefaultencoding('utf-8')
 #         print found.eq(i).text()
         
 ### test 2 ###
-weaponfactory = WeaponFactory('http://wiki.mh4g.org/ida/65030.html').get_weapon()
+weaponfactory = WeaponFactory('http://wiki.mh4g.org/ida/131588.html').get_weapon()
 print weaponfactory.name
+print weaponfactory.slot
 

@@ -48,7 +48,7 @@ class WeaponFactory(object):
             return None
         effect = [None, 0, False]
         text = node.text()
-        if -1 == text.find(u'覚醒：'):
+        if -1 != text.find('覚醒：'):
             effect[2] = True
             text = text[3:]
         pattern = re.compile(r'^(\D*)(\d*)$')
@@ -65,24 +65,19 @@ class WeaponFactory(object):
         return sharpness
             
     def handle_slot(self, node):
-
-        return (u'○' == node.eq(i).text() for i in xrange(len(node.text())))
-
-    ########## fresh start ##########
-
-
+        slot_text = ''.join(node.text().split())
+        return tuple([u'○' == slot_text[i] for i in xrange(len(slot_text))])
     
     def get_baseweapon(self, root, weapon):
         dict_tb = {}
         th = root(".t4 tr th")
         td = root(".t4 tr td")
         for i in xrange(len(th)):
-            if not th.eq(i).text() in dict_tb:
+            if th.eq(i).text() in self.dict_handler:
                 dict_tb[th.eq(i).text()] = self.dict_handler[th.eq(i).text()](td.eq(i))
         attr_dict = {'name': u'名前', 'attack': u'攻撃力', 'defense': u'防御力', 'affinity': u'会心率',
-                     'element': u'属性効果', 'accumulation': u'蓄積効果'}
+                     'rarity': u'レア度', 'slot': u'スロット', 'element': u'属性効果', 'accumulation': u'蓄積効果'}
         for key in attr_dict:
-            weapon.__setattr__(key, dict_tb[attr_dict[key]])
+            if attr_dict[key] in dict_tb:
+                weapon.__setattr__(key, dict_tb[attr_dict[key]])
         return weapon
-            
-        
