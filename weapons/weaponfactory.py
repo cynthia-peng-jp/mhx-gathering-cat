@@ -21,6 +21,20 @@ class WeaponFactory(object):
         Constructor
         '''
         self.url = url
+        self.dict_handler = {u'名前': lambda node: node.text(),
+                    u'攻撃力': lambda node: 0 if node.text() == '-' else int(str(node.text())),
+                    u'防御力': lambda node: 0 if node.text() == '-' else int(str(node.text())),
+                    u'会心率': lambda node: 0 if node.text() == '-' else int(node.text()[:-1]),
+                    u'属性効果': self.handle_effect,
+                    u'蓄積効果': self.handle_effect,
+                    u'レア度': lambda node: 0 if node.text() == '-' else int(node.text()),
+                    u'斬れ味長さ': lambda node: 0 if node.text() == '-' else int(node.text()),
+                    u'斬れ味': self.handle_sharpness,
+                    u'斬れ味+1': self.handle_sharpness,
+
+                    u'スロット': self.handle_slot,
+
+                    }
         
     def get_weapon(self):
         weapon = BaseWeapon()
@@ -30,6 +44,8 @@ class WeaponFactory(object):
 
         
     def handle_effect(self, node):
+        if node.text() == '-' :
+            return None
         effect = [None, 0, False]
         text = node.text()
         if -1 == text.find(u'覚醒：'):
@@ -49,24 +65,12 @@ class WeaponFactory(object):
         return sharpness
             
     def handle_slot(self, node):
+
         return (u'○' == node.eq(i).text() for i in xrange(len(node.text())))
 
     ########## fresh start ##########
 
-    dict_handler = {u'名前': lambda node: node.text(), 
-                    u'攻撃力': lambda node: 0 if node.text() == '-' else int(str(node.text())),
-                    u'防御力': lambda node: 0 if node.text() == '-' else int(str(node.text())),
-                    u'会心率': lambda node: 0 if node.text() == '-' else int(node.text()[:-1]),
-                    u'属性効果': handle_effect,
-                    u'蓄積効果': handle_effect,
-                    u'レア度': lambda node: 0 if node.text() == '-' else int(node.text()),
-                    u'斬れ味長さ': lambda node: 0 if node.text() == '-' else int(node.text()),
-                    u'斬れ味': handle_sharpness,
-                    u'斬れ味+1': handle_sharpness,
-                    
-                    u'スロット': handle_slot,
-                    
-                    }
+
     
     def get_baseweapon(self, root, weapon):
         dict_tb = {}
